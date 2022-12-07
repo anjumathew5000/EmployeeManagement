@@ -3,20 +3,21 @@
 {% block content %}
 <div class="row d-flex justify-content-center align-items-center h-100">
     <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-            <form>
+            <form method="POST" action="">
+               
             <h3 >Employee Details</h3>
             <div class="row mb-4">
             <div class="col">
                 <div class="form-outline">
-                    <label class="form-label" for="form6Example1">First name</label>
-                <input type="text" id="form6Example1" class="form-control" />
+                    <label class="form-label">First name</label>
+                <input type="text" id="first_name" name="first_name" class="form-control" />
                 
                 </div>
             </div>
             <div class="col">
                 <div class="form-outline">
-                    <label class="form-label" for="form6Example2">Last name</label>
-                <input type="text" id="form6Example2" class="form-control" />
+                    <label class="form-label" >Last name</label>
+                <input type="text" id="last_name" name="last_name" class="form-control" />
                 
                 </div>
             </div>
@@ -24,40 +25,89 @@
             <div class="row mb-4">
                 <div class="col">
             <div class="form-outline">
-                <label class="form-label" for="form6Example3">Employee Code</label>
-                <input type="text" id="form6Example3" class="form-control" />
+                <label class="form-label" for="">Employee Code</label>
+                <input type="text" id="employee_code" name="employee_code" class="form-control" />
             
             </div>
             </div>
             <div class="col">
                 <div class="form-outline">
-                    <label class="form-label" for="form6Example3">Role</label>
-                    <input type="text" id="form6Example3" class="form-control" />
+                    <label class="form-label" for="">Role</label>
+                    <input type="text" id="role" name="role" class="form-control" />
                 
                 </div>
             </div>
             </div>
-            
+          
+        
             <div class="form-outline mb-4">
-                <label class="form-label" for="form6Example4">Address</label>
-            <input type="text" id="form6Example4" class="form-control" />
+                <label class="form-label" for="">Email</label>
+            <input type="email" id="email" name="email" class="form-control" />
             
             </div>
         
             <div class="form-outline mb-4">
-                <label class="form-label" for="form6Example5">Email</label>
-            <input type="email" id="form6Example5" class="form-control" />
+                <label class="form-label" for="">Phone</label>
+            <input type="number" id="phone" name="phone" class="form-control" />
             
             </div>
-        
-            <div class="form-outline mb-4">
-                <label class="form-label" for="form6Example6">Phone</label>
-            <input type="number" id="form6Example6" class="form-control" />
             
-            </div>
-
-            <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
+            <button type="submit" id="submit_btn" class="btn btn-primary btn-block mb-4">Submit</button>
         </form>
     </div>
 </div>
-{% endblock content %}
+{% endblock  %}
+{% block script %}
+<script>
+
+    $(document).ready(function(){
+        
+        $('#submit_btn').on('click',function(event){
+            alert("enter")
+            event.preventDefault();
+            // $(".error-msg").remove();
+            $.ajax({
+              type: "POST",
+              url: "{% url 'add_employee' %}",
+              data: {
+                'first_name': $("#first_name").val(),
+                'last_name': $("#last_name").val(),
+                'phone': $("#phone").val(),
+                'email': $("#email").val(),
+                'employee_code': $("#employee_code").val(),
+                'role': $("#role").val(),
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+              },
+              success: function (response) {
+                
+                    console.log(response)
+                    var emp_id = response.emp_id
+                    alert('Thank you for submitting your queries. we will be in touch with you soon')
+                    window.location = 'add_salary/'+emp_id;
+              
+              },
+              error:function(response){
+                if(response.status == 403){
+                    alert("yes")
+                       var errorResponse = JSON.parse(response.responseText);
+                       var errorObj = JSON.parse(errorResponse.errors)
+                       for (var key in errorObj) {
+                          if (errorObj.hasOwnProperty(key)) {
+                              var errorText = errorObj[key][0]['message']
+                              alert(errorText)
+                            
+                          }
+                       }
+                  }else{
+
+                    alert("no")
+                  }
+              }
+            });
+            return false;
+        });
+    });
+</script>
+{% endblock %}
+
+

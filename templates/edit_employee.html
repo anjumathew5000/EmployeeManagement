@@ -1,0 +1,60 @@
+{% extends 'index.html' %} 
+
+{% block content %}
+<div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <form method="POST" action="">
+               {% csrf_token %}
+            <h3 >Employee Details</h3>
+            <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label">First name</label>
+                <input type="text" id="first_name" name="first_name" value="{{object.first_name}}" class="form-control"/>
+                
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label" >Last name</label>
+                <input type="text" id="last_name" name="last_name" value="{{object.last_name}}" class="form-control" />
+                
+                </div>
+            </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col">
+            <div class="form-outline">
+                <label class="form-label" for="">Employee Code</label>
+                <input type="text" id="employee_code" name="employee_code" value="{{object.employee_code}}" class="form-control" readonly/>
+                <label class="form-label" for="" style="color:red">*can't edit</label>
+            
+            </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <label class="form-label" for="">Role</label>
+                    <input type="text" id="role" name="role" value="{{object.role}}" class="form-control" />
+                
+                </div>
+            </div>
+            </div>
+          
+        
+            <div class="form-outline mb-4">
+                <label class="form-label" for="">Email</label>
+            <input type="email" id="email" name="email" value="{{object.email}}" class="form-control"/>
+            
+            </div>
+        
+            <div class="form-outline mb-4">
+                <label class="form-label" for="">Phone</label>
+            <input type="number" id="phone" name="phone" value="{{object.phone}}" class="form-control" />
+            
+            </div>
+            
+            <button type="submit" id="submit_btn" class="btn btn-primary btn-block mb-4">Update</button>
+        </form>
+    </div>
+</div>
+{% endblock  %}

@@ -12,16 +12,20 @@
     </tr>
 </thead>
 <tbody>
+    {% if employee_list %}
+    {% for emp in employee_list %}
     <tr>
-    <td>John</td>
-    <td>Doe</td>
-    <td>john@example.com</td>
+    <td>{{emp.first_name}} {{emp.last_name}}</td>
+    <td>{{emp.email}}</td>
+    <td>{{emp.employee_code}}</td>
     <td>
-        <a href=""> view</a>
-        <a href="">delete </a>
+        <a href="{% url 'detail_view_employee' emp.id %}"> view</a>
+        <a href="{% url 'edit_employee' emp.id %}"> edit</a>
+        <a href="{% url 'delete_employee' emp.id %}">delete </a>
     </td>
     </tr>
-    <tr>
+   {% endfor %}
+   {% endif %}
     
 </tbody>
 </table>
