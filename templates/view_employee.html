@@ -1,0 +1,36 @@
+{% extends 'index.html' %} 
+
+{% block content %}
+<table class="table">
+<thead>
+    <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Employee Code</th>
+    <th>Actions</th>
+    
+    </tr>
+</thead>
+<tbody>
+    {% if employee_list %}
+    {% for emp in employee_list %}
+    <tr>
+    <td>{{emp.first_name}} {{emp.last_name}}</td>
+    <td>{{emp.email}}</td>
+    <td>{{emp.employee_code}}</td>
+    <td>
+        <a type="button" href="{% url 'detail_view_employee' emp.id %}" style="color:blue" > view</a>
+        <a  type="button" href="{% url 'edit_employee' emp.id %}" style="color:green"> edit</a>
+        <a type="button"  href="{% url 'delete_employee' emp.id %}" style="color:red">delete </a>
+    </td>
+    </tr>
+   {% endfor %}
+   {% else %}
+   <tr>
+    No data found
+   </tr>
+    {% endif %}
+</tbody>
+</table>
+<a type="button" href="{% url 'home' %}" class="btn btn-primary btn-block mb-4">Back</a>
+{% endblock content %}

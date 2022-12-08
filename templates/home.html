@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<title>EMPLOYEE MANAGEMENT</title>
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" >
+	<style>
+		body {
+            padding-bottom:600px;
+			margin: 0 auto;
+			background-position:center;
+			
+            background-image: url("{% static 'assets/img/emp.jpg' %}");
+            background-repeat: no-repeat;
+            background-position:center;
+			background-size: cover;
+		}
+	
+		
+	</style>
+</head>
+
+<body>
+	
+	<!-- Header Section -->
+	<header>
+		
+		
+	</header>
+	
+	<!-- Menu Navigation Bar -->
+	<nav class="menu">
+		<a href="#">Home</a>
+		<a href="{% url 'view_employee' %}">Employees</a>
+		<a href="{% url 'add_employee' %}">Add New Employee</a>
+        {% if user.is_authenticated  %}
+        
+        <div class="menu-log">
+            <!-- <h6>Hi {{user.email}}</h6> -->
+			<a href="{% url 'logout' %}">Logout</a>
+		</div>
+        {% else %}
+		<div class="menu-log">
+			<a href="{% url 'login' %}">Login</a>
+		</div>
+       
+        {% endif %}
+	</nav>
+	
+	<!-- Body section -->
+	<main class = "body_sec">
+		<section id="Content" >
+            <div class="head1">Employee Management System</div>
+            <div class="backgroundImage">
+
+            </div>
+            
+			<h3></h3>
+		</section>
+	</main>
+	
+	
+</body>
+</html>
