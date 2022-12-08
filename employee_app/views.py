@@ -22,14 +22,14 @@ def login(request):
        
         if user is not None:
             auth_login(request, user)
-            return redirect('add_employee')
+            return redirect('home')
         else:
             context={'message':'email incorrect'}
             return render(request,'login.html',context)
     else:
         return render(request,'login.html')
 
-        
+
 class HomeView(TemplateView):
     template_name ='home.html'
 

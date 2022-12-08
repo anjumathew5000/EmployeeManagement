@@ -73,7 +73,9 @@
 		<a href="{% url 'view_employee' %}">Employees</a>
 		<a href="{% url 'add_employee' %}">Add New Employee</a>
         {% if user.is_authenticated  %}
+        
         <div class="menu-log">
+            <!-- <h6>Hi {{user.email}}</h6> -->
 			<a href="{% url 'logout' %}">Logout</a>
 		</div>
         {% else %}
@@ -87,7 +89,7 @@
 	<!-- Body section -->
 	<main class = "body_sec">
 		<section id="Content">
-            
+
 			<h3></h3>
 		</section>
 	</main>
