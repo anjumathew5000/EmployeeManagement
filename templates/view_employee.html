@@ -25,8 +25,11 @@
     </td>
     </tr>
    {% endfor %}
-   {% endif %}
-    
+   {% else %}
+   <tr>
+    No data found
+   </tr>
+    {% endif %}
 </tbody>
 </table>
 <a type="button" href="{% url 'home' %}" class="btn btn-primary btn-block mb-4">Back</a>
