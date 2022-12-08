@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 from django.views.generic import DetailView,TemplateView
-from .models import Employee,Account
+from .models import Employee,Account,Salary
 from django.views.generic.edit import UpdateView,CreateView,DeleteView
 from django.views.generic.list import ListView
 from .forms import EmployeeForm,SalaryForm
@@ -106,11 +106,7 @@ class Addsalary(CreateView):
                 emp_id = self.request.POST['id']
                 form =SalaryForm(self.request.POST)
                 emp_data = Employee.objects.get(id=emp_id)
-                # employee_code = emp_data.employee_code
-                # if Salary.objects.filter(employee=emp_data).exists():
-                #     print("yes")
-                #     d={"success": False,"errors":"This Employee salary is already added !"}
-                #     return JsonResponse(d,status=400)
+            
                 if form.is_valid():
                     obj = form.save(commit=False)
                     obj.employee= emp_data
@@ -134,6 +130,11 @@ class EmployeeList(ListView):
 class EmployeeDetailView(DetailView):
    model = Employee
    template_name = 'employee_detail.html'
+
+   def get_context_data(self, **kwargs):
+        context = super(EmployeeDetailView, self).get_context_data(**kwargs)
+        context['salary'] = Salary.objects.get(employee=context['object']).salary
+        return context
 
 class EditEmployee(UpdateView):
     model = Employee

@@ -51,9 +51,13 @@
             <input type="number" id="phone" name="phone" value="{{object.phone}}" class="form-control" readonly/>
             
             </div>
+            <div class="form-outline mb-4">
+                <label class="form-label" for="">Salary</label>
+            <input type="number" id="phone" name="phone" value="{{salary}}" class="form-control" readonly/>
             
+            </div>
             <a type="button" href="{% url 'view_employee' %}" class="btn btn-primary btn-block mb-4">Back</a>
-            <a type="button" href="{% url 'edit_employee' object.id %}" class="btn btn-primary btn-block mb-4">update</a>
+            
         </form>
     </div>
 </div>
