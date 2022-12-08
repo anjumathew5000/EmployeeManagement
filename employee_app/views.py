@@ -17,14 +17,13 @@ from django.http import HttpResponseRedirect
 def login(request):
     if request.method == 'POST':
         email    = request.POST['email']
-        user = Account.objects.get(email=email)
-        user.backend = 'django.contrib.auth.backends.ModelBackend'
-       
+        user = Account.objects.filter(email=email).first()
         if user is not None:
+            user.backend = 'django.contrib.auth.backends.ModelBackend'
             auth_login(request, user)
             return redirect('home')
         else:
-            context={'message':'email incorrect'}
+            context={'message':'incorrect email'}
             return render(request,'login.html',context)
     else:
         return render(request,'login.html')
