@@ -9,7 +9,8 @@ from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('login',views.login,name="login"),
-    path('home',HomeView.as_view(),name="home"),
+    path('signup',views.signup,name="signup"),
+    path('',HomeView.as_view(),name="home"),
     path('add_employee',login_required(Addemployee.as_view()), name = 'add_employee'),
     path('add_salary/<int:emp_id>', login_required(Addsalary.as_view()), name = 'add_salary'),
     path('add_salary',login_required(Addsalary.as_view()), name = 'add_salary'),

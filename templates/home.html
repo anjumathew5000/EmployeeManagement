@@ -34,8 +34,8 @@
 		<a href="#">Home</a>
 		<a href="{% url 'view_employee' %}">Employees</a>
 		<a href="{% url 'add_employee' %}">Add New Employee</a>
-        {% if user.is_authenticated  %}
-        
+        {% if user.is_authenticated %}
+       
         <div class="menu-log">
             <!-- <h6>Hi {{user.email}}</h6> -->
 			<a href="{% url 'logout' %}">Logout</a>
@@ -43,6 +43,9 @@
         {% else %}
 		<div class="menu-log">
 			<a href="{% url 'login' %}">Login</a>
+		</div>
+		<div class="menu-log">
+			<a href="{% url 'signup' %}">Signup</a>
 		</div>
        
         {% endif %}

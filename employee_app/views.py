@@ -17,16 +17,49 @@ from django.http import HttpResponseRedirect
 def login(request):
     if request.method == 'POST':
         email    = request.POST['email']
-        user = Account.objects.filter(email=email).first()
+        password = request.POST['password']
+        print(email,password)
+        user = authenticate(email=email, password=password)
+        print(user)
+       
         if user is not None:
-            user.backend = 'django.contrib.auth.backends.ModelBackend'
-            auth_login(request, user)
+            auth_login(request,user)
             return redirect('home')
         else:
-            context={'message':'incorrect email'}
+            context={'message':'incorrect email or password'}
             return render(request,'login.html',context)
     else:
         return render(request,'login.html')
+
+
+def signup(request):
+    if request.method == 'POST':
+        email    = request.POST['email']
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+        print(email,password,confirm_password)
+        if password != confirm_password:
+            context={"message":"password did't match"}
+            return render(request,'signup.html',context)
+        
+        user = Account.objects.filter(email=email).first()
+      
+        if user is not None:
+            context={"message":"user already exists"}
+            return render(request,'signup.html',context)
+      
+        obj, created = Account.objects.get_or_create(
+        email=email,password=password)
+        obj.set_password(password)
+        obj.save()
+
+        # context={"message":"user created successfully"}
+        return render(request,'login.html')
+    
+    else:
+        return render(request,'signup.html')
+
+
 
 
 class HomeView(TemplateView):

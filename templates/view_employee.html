@@ -4,6 +4,7 @@
 <table class="table">
 <thead>
     <tr>
+    <th>#</th>
     <th>Name</th>
     <th>Email</th>
     <th>Employee Code</th>
@@ -15,6 +16,7 @@
     {% if employee_list %}
     {% for emp in employee_list %}
     <tr>
+    <td>{{forloop.counter }}</td>
     <td>{{emp.first_name}} {{emp.last_name}}</td>
     <td>{{emp.email}}</td>
     <td>{{emp.employee_code}}</td>

@@ -6,23 +6,28 @@
     <div class="card shadow-2-strong" style="border-radius: 1rem;">
         <div class="card-body p-5 text-center">
 
-        <h3 class="mb-5">User Login</h3>
+        <h3 class="mb-5">Signup</h3>
         <h6 style="color:red">{{message}}</h6>
-        <form method="post" action="/login">
+        <form method="post" action="/signup">
             {% csrf_token %}
         <div class="form-outline mb-4">
-            <label class="form-label" style="float:left">Email</label>
+            <label class="form-label" style="float:left">Email Adress</label>
             <input type="email" id=""name="email" class="form-control form-control-lg" required/>
             
         </div>
         <div class="form-outline mb-4">
-            <label class="form-label" style="float:left">Password</label>
+            <label class="form-label" style="float:left">password</label>
             <input type="password" id=""name="password" class="form-control form-control-lg" required/>
             
         </div>
+        <div class="form-outline mb-4">
+            <label class="form-label" style="float:left">Confirm Password</label>
+            <input type="password" id=""name="confirm_password" class="form-control form-control-lg" required/>
+            
+        </div>
        
-        <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button><br>
-        Not a member ? <a href="{% url 'signup' %}">signup</a>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Signup</button>
+        already member ? <a href="{% url 'login' %}">login</a>
         </form>
         
         </div>
