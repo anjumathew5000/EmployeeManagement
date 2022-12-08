@@ -24,6 +24,7 @@
             </div>
 
             <button type="submit" id="submit_btn" class="btn btn-primary btn-block mb-4">Submit</button>
+            
         </form>
     </div>
 </div>
@@ -34,9 +35,8 @@
     $(document).ready(function(){
        
         $('#submit_btn').on('click',function(event){
-            alert("enter")
             event.preventDefault();
-            // $(".error-msg").remove();
+           
             $.ajax({
               type: "POST",
               url: "{% url 'add_salary' %}",
@@ -47,15 +47,13 @@
               },
               success: function (response) {
               
-                    console.log(response)
-                    
-                    alert('Thank you for submitting your queries. we will be in touch with you soon')
-                    window.location = "{% url 'view_employee' %}"
+                    alert('employee salary successfully added !')
+                    window.location = "{% url 'home' %}"
               
               },
               error:function(response){
                 if(response.status == 403){
-                    alert("yes")
+                  
                        var errorResponse = JSON.parse(response.responseText);
                        var errorObj = JSON.parse(errorResponse.errors)
                        for (var key in errorObj) {
@@ -66,8 +64,15 @@
                           }
                        }
                   }else{
+                    console.log(response.responseJSON)
+                    if (response.responseJSON.errors){
+                        alert(response.responseJSON.errors)
+                    }else{
 
-                    alert("no")
+                    }
+                    
+
+                
                   }
               }
             });

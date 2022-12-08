@@ -10,14 +10,14 @@
             <div class="col">
                 <div class="form-outline">
                     <label class="form-label">First name</label>
-                <input type="text" id="first_name" name="first_name" class="form-control" />
+                <input type="text" id="first_name" name="first_name" class="form-control"  />
                 
                 </div>
             </div>
             <div class="col">
                 <div class="form-outline">
                     <label class="form-label" >Last name</label>
-                <input type="text" id="last_name" name="last_name" class="form-control" />
+                <input type="text" id="last_name" name="last_name" class="form-control"  />
                 
                 </div>
             </div>
@@ -26,7 +26,7 @@
                 <div class="col">
             <div class="form-outline">
                 <label class="form-label" for="">Employee Code</label>
-                <input type="text" id="employee_code" name="employee_code" class="form-control" />
+                <input type="text" id="employee_code" name="employee_code" class="form-control"  />
             
             </div>
             </div>
@@ -63,9 +63,9 @@
     $(document).ready(function(){
         
         $('#submit_btn').on('click',function(event){
-            alert("enter")
+            // alert("enter")
             event.preventDefault();
-            // $(".error-msg").remove();
+           
             $.ajax({
               type: "POST",
               url: "{% url 'add_employee' %}",
@@ -82,13 +82,13 @@
                 
                     console.log(response)
                     var emp_id = response.emp_id
-                    alert('Thank you for submitting your queries. we will be in touch with you soon')
+                    alert('Sucessfully added !')
                     window.location = 'add_salary/'+emp_id;
               
               },
               error:function(response){
                 if(response.status == 403){
-                    alert("yes")
+                   
                        var errorResponse = JSON.parse(response.responseText);
                        var errorObj = JSON.parse(errorResponse.errors)
                        for (var key in errorObj) {
@@ -99,8 +99,8 @@
                           }
                        }
                   }else{
-
-                    alert("no")
+                    // console.log(response)
+                   
                   }
               }
             });

@@ -2,40 +2,42 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
 from django.views.generic import DetailView,TemplateView
-from .models import Employee
+from .models import Employee,Account
 from django.views.generic.edit import UpdateView,CreateView,DeleteView
 from django.views.generic.list import ListView
 from .forms import EmployeeForm,SalaryForm
 from django.http import JsonResponse
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth import login as auth_login
+from django.http import HttpResponseRedirect
 
 # Create your views here.
+
 
 def login(request):
     if request.method == 'POST':
         email    = request.POST['email']
-        password = request.POST['password']
-        print(email)
-        print(password)
-        user = authenticate(username=email, password=password)
-        print(user)
+        user = Account.objects.get(email=email)
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
+       
         if user is not None:
-            
-            # A backend authenticated the credentials
+            auth_login(request, user)
             return redirect('add_employee')
         else:
-            # No backend authenticated the credentials
-            context={'message':'email or password incorrect'}
+            context={'message':'email incorrect'}
             return render(request,'login.html',context)
     else:
-         return render(request,'login.html')
+        return render(request,'login.html')
 
-
+        
+class HomeView(TemplateView):
+    template_name ='home.html'
 
 class Addemployee(CreateView): 
     def get(self, request, *args, **kwargs):
-        # checkUser(request)
-        print("yessss")
+        
         return render(request, 'add_employee.html')
+        
     
     def post(self, request, *args, **kwargs):
         try:
@@ -44,9 +46,8 @@ class Addemployee(CreateView):
               
                 if form.is_valid():
                     form.save()
-                    
+                    print("yesssssssssss")
                     emp_code = form.cleaned_data['employee_code']
-                   
                     emp_id=Employee.objects.get(employee_code=emp_code).id
                     print(emp_id)
                     d = {"success": True,"emp_id":emp_id}
@@ -60,10 +61,11 @@ class Addemployee(CreateView):
     
 class Addsalary(CreateView): 
     def get(self, request, *args, **kwargs):
-        # checkUser(request)
+        
         emp_id = self.kwargs['emp_id']
         emp_data =Employee.objects.get(id=emp_id)
         context={'employee':emp_data}
+        
         return render(request, 'add_salary.html',context)
         
     def post(self, request, *args, **kwargs):
@@ -71,15 +73,19 @@ class Addsalary(CreateView):
             if self.request.method == "POST":
                 emp_id = self.request.POST['id']
                 form =SalaryForm(self.request.POST)
+                emp_data = Employee.objects.get(id=emp_id)
+                # employee_code = emp_data.employee_code
+                # if Salary.objects.filter(employee=emp_data).exists():
+                #     print("yes")
+                #     d={"success": False,"errors":"This Employee salary is already added !"}
+                #     return JsonResponse(d,status=400)
                 if form.is_valid():
-
                     obj = form.save(commit=False)
-                    obj.employee= Employee.objects.get(id=emp_id)
+                    obj.employee= emp_data
                     obj.save()
-                
                     d = {"success": True}
-                   
-                    return JsonResponse(d, status=200)
+                    return JsonResponse(d,status=200)
+                    
                 else:
                     return JsonResponse({"success": False, "errors": form.errors.as_json()}, status=403)
             else:
@@ -99,8 +105,6 @@ class EmployeeDetailView(DetailView):
 
 class EditEmployee(UpdateView):
     model = Employee
-    # form_class = Employee
-    # pk_url_kwarg = 'pk'
     fields = [
         "first_name",
         "last_name",

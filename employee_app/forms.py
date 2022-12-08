@@ -29,5 +29,5 @@ class SalaryForm(forms.ModelForm):
 #                                 ])
 
 #     class Meta:
-#         model = UserFeedback
-#         fields = ("email", "name", "message")
+#         model = Employee  
+#         fields = ("email", "first_name", "last_name","phone")
